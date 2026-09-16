@@ -29,7 +29,7 @@ void RegistrationListForm::onDeleteClicked()
     else if (selectedItem->text(0).startsWith("Team: ")) {
         // خود تیم انتخاب شده
         QString groupLabel = selectedItem->parent()->text(0);
-        qDebug()<<groupLabel;
+
         QString teamName = selectedItem->text(0).mid(6);
 
         manager->removeTeam(groupLabel, teamName);
@@ -66,12 +66,13 @@ void RegistrationListForm::populateData()
 
     for (const CompetitionGroup& group : groups)
     {
-        QString groupLabel = QString("Group - Age: %1 | Weight: %2 | Gender: %3 | MatchType: %4 | MatchDuration: %5")
+        QString groupLabel = QString("Group - Age: %1 | Weight: %2 | Gender: %3 | MatchType: %4 | MatchDuration: %5 | Space: %6")
         .arg(group.ageCategory)
             .arg(group.weightCategory)
                 .arg(group.gender == Gender::Male ? "Male" : "Female")
                     .arg(group.matchType == MatchType::Kata ? "Kata" : "Kumite")
-                        .arg(group.matchDuration);
+                        .arg(group.matchDuration)
+                            .arg(group.Space);
 
         QTreeWidgetItem* groupItem = new QTreeWidgetItem(QStringList() << groupLabel);
         treeWidget->addTopLevelItem(groupItem);

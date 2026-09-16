@@ -14,6 +14,8 @@
 enum class Gender { Male, Female };
 enum class MatchType { Kata, Kumite };
 enum class EntryType { Individual, Team };
+
+
 struct Participant {
     QString firstName;
     QString lastName;
@@ -33,6 +35,7 @@ struct CompetitionGroup {
 
     MatchType matchType;
     double matchDuration;
+    double Space;
     EntryType entryType;
     QVector<Participant> participants;
     QVector<Team> teams;
@@ -40,6 +43,7 @@ struct CompetitionGroup {
 
     int teamSize; // صفر برای انفرادی
 };
+
 
 
 

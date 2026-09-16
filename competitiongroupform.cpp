@@ -6,9 +6,11 @@
 CompetitionGroupForm::CompetitionGroupForm(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CompetitionGroupForm),
-    manager("groups.json")
+    manager(QCoreApplication::applicationDirPath() + "/groups.json")
 {
     ui->setupUi(this);
+    ui->weightLabel->setVisible(false);
+    ui->weightLineEdit->setVisible(false);
     loadGroups();
     refreshTable();
 }
@@ -37,6 +39,7 @@ void CompetitionGroupForm::refreshTable() {
         ui->groupTable->setItem(i, 4, new QTableWidgetItem(QString::number(g.matchDuration)));
         ui->groupTable->setItem(i, 5, new QTableWidgetItem(g.entryType == EntryType::Team ? "Team" : "Individual"));
         ui->groupTable->setItem(i, 6, new QTableWidgetItem(QString::number(g.teamSize)));
+        ui->groupTable->setItem(i, 7, new QTableWidgetItem(QString::number(g.Space)));
     }
 }
 
@@ -46,12 +49,18 @@ void CompetitionGroupForm::on_addButton_clicked()
 
     CompetitionGroup g;
     g.ageCategory = ui->ageLineEdit->text();
-    g.weightCategory = ui->weightLineEdit->text();
+
     g.gender = (ui->genderComboBox->currentText() == "Male") ? Gender::Male : Gender::Female;
     g.matchType = (ui->matchTypeComboBox->currentText() == "Kata") ? MatchType::Kata : MatchType::Kumite;
+    if(g.matchType == MatchType::Kata){
+        g.weightCategory = "-";
+    }else{
+        g.weightCategory = ui->weightLineEdit->text();
+    }
     g.entryType = (ui->entryTypeComboBox->currentText() == "Team") ? EntryType::Team : EntryType::Individual;
     g.teamSize = g.entryType == EntryType::Team ? ui->teamSizeSpinBox->value() : 0;
     g.matchDuration = ui->matchDurationDoubleSpinBox->value();
+    g.Space = ui->spaceDoubleSpinBox->value();
     if (g.ageCategory.isEmpty() || g.weightCategory.isEmpty()) {
         QMessageBox::warning(this, "Error", "Age and weight category cannot be empty.");
         return;
@@ -83,9 +92,23 @@ void CompetitionGroupForm::on_entryTypeComboBox_activated(int index)
     if(index == 1 ){
         ui->teamSizeLabel->setVisible(false);
         ui->teamSizeSpinBox->setVisible(false);
+
     }else{
         ui->teamSizeLabel->setVisible(true);
         ui->teamSizeSpinBox->setVisible(true);
+
+    }
+}
+
+
+void CompetitionGroupForm::on_matchTypeComboBox_currentIndexChanged(int index)
+{
+    if(index==1){
+        ui->weightLabel->setVisible(true);
+        ui->weightLineEdit->setVisible(true);
+    }else{
+        ui->weightLabel->setVisible(false);
+        ui->weightLineEdit->setVisible(false);
     }
 }
 

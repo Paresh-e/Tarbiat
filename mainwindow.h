@@ -1,3 +1,5 @@
+
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -22,6 +24,14 @@ private slots:
     void on_btnCompetitionGroups_clicked();
     void on_btnRegisterParticipant_clicked();
     void on_btnViewRegistrations_clicked();
+
+
+
+
+
+    void on_TimeTableSettingsButton_clicked();
+
+    void on_TimeTableButton_clicked();
 
 private:
     Ui::MainWindow *ui;

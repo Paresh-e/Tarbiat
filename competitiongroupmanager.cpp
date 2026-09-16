@@ -1,5 +1,5 @@
 #include "competitiongroupmanager.h"
-#
+
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -21,6 +21,16 @@ void CompetitionGroupManager::load() {
     groups.clear();
 
     QFile file(filePath);
+    if (!QFile::exists(filePath))
+       {
+           QFile file(filePath);
+
+           if (file.open(QIODevice::WriteOnly))
+           {
+               file.write("[]");
+               file.close();
+           }
+       }
     if (!file.open(QIODevice::ReadOnly)) {
         qWarning() << "Cannot open file for reading:" << filePath;
         return;
@@ -47,7 +57,7 @@ void CompetitionGroupManager::load() {
         QString genderStr = groupObj["gender"].toString();
         group.gender = genderStr == "Male" ? Gender::Male : Gender::Female;
         group.matchDuration = groupObj["matchDuration"].toDouble();
-
+        group.Space = groupObj["space"].toDouble();
         QString matchTypeStr = groupObj["matchType"].toString();
         if (matchTypeStr == "Kata")
             group.matchType = MatchType::Kata;
@@ -121,6 +131,7 @@ QJsonObject CompetitionGroup::toJson() const{
     obj["entryType"] = entryType == EntryType::Team ? "Team" : "Individual";
     obj["teamSize"] = teamSize;
     obj["matchDuration"] = matchDuration;
+    obj["space"] = Space;
     if (entryType == EntryType::Individual) {
         QJsonArray participantsArray;
         for (const Participant& p : participants) {
@@ -174,12 +185,13 @@ void CompetitionGroupManager::save() {
 
 
 bool compareLabel(const QString& label, const CompetitionGroup& group) {
-    QString groupLabel = QString("Group - Age: %1 | Weight: %2 | Gender: %3 | MatchType: %4 | MatchDuration: %5")
+    QString groupLabel = QString("Group - Age: %1 | Weight: %2 | Gender: %3 | MatchType: %4 | MatchDuration: %5 | Space: %6")
     .arg(group.ageCategory)
         .arg(group.weightCategory)
-        .arg(group.gender == Gender::Male ? "Male" : "Female")
-        .arg(group.matchType == MatchType::Kata ? "Kata" : "Kumite")
-        .arg(group.matchDuration);
+            .arg(group.gender == Gender::Male ? "Male" : "Female")
+                .arg(group.matchType == MatchType::Kata ? "Kata" : "Kumite")
+                    .arg(group.matchDuration)
+                        .arg(group.Space);
     return label == groupLabel;
 }
 

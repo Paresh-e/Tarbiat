@@ -25,6 +25,8 @@ private slots:
 
     void on_entryTypeComboBox_activated(int index);
 
+    void on_matchTypeComboBox_currentIndexChanged(int index);
+
 private:
     void loadGroups();
     void clear();

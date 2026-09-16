@@ -14,7 +14,7 @@ QString toStringComp(const CompetitionGroup& c) {
 RegistrationForm::RegistrationForm(QWidget *parent)
     : QDialog(parent),
     ui(new Ui::RegistrationForm),
-    manager("groups.json")
+    manager(QCoreApplication::applicationDirPath() + "/groups.json")
 {
     ui->setupUi(this);
 
@@ -98,6 +98,7 @@ void RegistrationForm::onRegisterClicked()
         if(ui->nameLineEdit->text().isEmpty()||
             ui->groupComboBox->currentIndex()<0){
             QMessageBox::warning(this,"Error","teamtitle or group is empty");
+            return;
         }
         Team newteam;
         newteam.teamName = ui->nameLineEdit->text();

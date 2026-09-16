@@ -159,7 +159,7 @@
      <item>
       <widget class="QSpinBox" name="teamSizeSpinBox">
        <property name="minimum">
-        <number>1</number>
+        <number>2</number>
        </property>
        <property name="maximum">
         <number>20</number>
@@ -181,6 +181,30 @@
       <widget class="QPushButton" name="addButton">
        <property name="text">
         <string>AddGroup</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_10">
+     <item>
+      <widget class="QLabel" name="spaceLable">
+       <property name="text">
+        <string>space(min)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="spaceDoubleSpinBox">
+       <property name="decimals">
+        <number>1</number>
+       </property>
+       <property name="singleStep">
+        <double>1.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>0.000000000000000</double>
        </property>
       </widget>
      </item>
@@ -255,6 +279,11 @@
        <column>
         <property name="text">
          <string>TeamSize</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>space</string>
         </property>
        </column>
       </widget>

@@ -1,0 +1,410 @@
+[
+    {
+        "ageCategory": "نوجوانان",
+        "entryType": "Team",
+        "gender": "Male",
+        "matchDuration": 1,
+        "matchType": "Kata",
+        "space": 2,
+        "teamSize": 2,
+        "teams": [
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "q1"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "q2"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "q3"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "q4"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "q5"
+            }
+        ],
+        "weightCategory": "-"
+    },
+    {
+        "ageCategory": "جوانان",
+        "entryType": "Team",
+        "gender": "Male",
+        "matchDuration": 1,
+        "matchType": "Kumite",
+        "space": 0,
+        "teamSize": 2,
+        "teams": [
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "w1"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "w3"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "w4"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "w5"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "w6"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "w2"
+            }
+        ],
+        "weightCategory": "50"
+    },
+    {
+        "ageCategory": "کودک",
+        "entryType": "Team",
+        "gender": "Male",
+        "matchDuration": 2,
+        "matchType": "Kumite",
+        "space": 1,
+        "teamSize": 2,
+        "teams": [
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "e1"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "e2"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "e3"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "e4"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "e5"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "e6"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "e7"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "e8"
+            },
+            {
+                "members": [
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    },
+                    {
+                        "firstName": "Name",
+                        "lastName": "lastName"
+                    }
+                ],
+                "teamName": "e9"
+            }
+        ],
+        "weightCategory": "20"
+    },
+    {
+        "ageCategory": "بزرگسال",
+        "entryType": "Individual",
+        "gender": "Male",
+        "matchDuration": 5,
+        "matchType": "Kata",
+        "participants": [
+            {
+                "firstName": "a1",
+                "lastName": "a1"
+            },
+            {
+                "firstName": "a2",
+                "lastName": "a2"
+            },
+            {
+                "firstName": "a3",
+                "lastName": "a3"
+            }
+        ],
+        "space": 1,
+        "teamSize": 0,
+        "weightCategory": "-"
+    },
+    {
+        "ageCategory": "-25",
+        "entryType": "Team",
+        "gender": "Female",
+        "matchDuration": 3,
+        "matchType": "Kumite",
+        "space": 0,
+        "teamSize": 5,
+        "teams": [
+        ],
+        "weightCategory": "-55"
+    },
+    {
+        "ageCategory": "9",
+        "entryType": "Individual",
+        "gender": "Male",
+        "matchDuration": 2,
+        "matchType": "Kumite",
+        "participants": [
+            {
+                "firstName": "y0",
+                "lastName": "y0"
+            },
+            {
+                "firstName": "y1",
+                "lastName": "y1"
+            },
+            {
+                "firstName": "y2",
+                "lastName": "y2"
+            },
+            {
+                "firstName": "y3",
+                "lastName": "y3"
+            },
+            {
+                "firstName": "y4",
+                "lastName": "y4"
+            },
+            {
+                "firstName": "y5",
+                "lastName": "y5"
+            },
+            {
+                "firstName": "y6",
+                "lastName": "y6"
+            },
+            {
+                "firstName": "y7",
+                "lastName": "y7"
+            },
+            {
+                "firstName": "y8",
+                "lastName": "y8"
+            },
+            {
+                "firstName": "y9",
+                "lastName": "y9"
+            },
+            {
+                "firstName": "y10",
+                "lastName": "y10"
+            },
+            {
+                "firstName": "y11",
+                "lastName": "y11"
+            },
+            {
+                "firstName": "y12",
+                "lastName": "y12"
+            },
+            {
+                "firstName": "y13",
+                "lastName": "y13"
+            },
+            {
+                "firstName": "y14",
+                "lastName": "y14"
+            },
+            {
+                "firstName": "y15",
+                "lastName": "y15"
+            }
+        ],
+        "space": 1,
+        "teamSize": 0,
+        "weightCategory": "-25"
+    }
+]
