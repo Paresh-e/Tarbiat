@@ -3,6 +3,7 @@
 
 #include "competitiongroupmanager.h"
 #include "qcombobox.h"
+#include "qlistwidget.h"
 #include <QDialog>
 
 namespace Ui {
@@ -30,6 +31,8 @@ private slots:
 private:
     Ui::SortGroups *ui;
     CompetitionGroupManager manager;
+    void updatePriority(QListWidget * priorityList);
+    void moveUncheckedToEnd(QListWidget *priorityList);
 };
 
 #endif // SORTGROUPS_H

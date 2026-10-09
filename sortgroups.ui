@@ -81,11 +81,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
        <string>Tatami</string>
       </property>
      </column>
-     <column>
-      <property name="text">
-       <string>Order</string>
-      </property>
-     </column>
     </widget>
    </item>
    <item>

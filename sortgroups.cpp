@@ -10,6 +10,7 @@
 #include <QStandardItemModel>
 #include <QStandardItem>
 #include <QMessageBox>
+#include <qlistwidget.h>
 
 SortGroups::SortGroups(QWidget *parent,int tattami)
     : QDialog(parent)
@@ -19,81 +20,199 @@ SortGroups::SortGroups(QWidget *parent,int tattami)
     GlobalData::instance().empty_finalGroups();
     ui->setupUi(this);
     ui->tableWidget->setRowCount(0);
-    tatami = new QVector<QComboBox*>;
-    order = new QVector<QComboBox *>;
+    // tatami = new QVector<QComboBox*>;
+    // order = new QVector<QComboBox *>;
 
     manager.load();
     const auto& groups = manager.getGroups();
     QString alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXY";
-    for (int i = 0; i < groups.size(); ++i) {
-        const auto& g = groups[i];
+
+
+    // start page sort > making the tatemi into the table
+    for ( int i = 0 ; i<tattami ; ++i){
         ui->tableWidget->insertRow(i);
-        QString gender = g.gender == Gender::Male ? "Male" : "Female";
-        QString matchType = g.matchType == MatchType::Kata ? "Kata" : "Kumite";
-        QString entryType = g.entryType == EntryType::Team ? "Team" : "Individual";
-        QString title = g.ageCategory+"|"
-                        +g.weightCategory+"|"
-                        +gender+"|"
-                        +matchType+"|"
-                        +entryType+"|"
-                        +QString::number(g.teamSize);
-        ui->tableWidget->setItem(i,0,new QTableWidgetItem(title));
+        ui->tableWidget->setItem(i,0,new QTableWidgetItem(alphabet[i]));
+        // be ezay har tattami ye khat onsert misheh
+        QListWidget * priorityList= new QListWidget();
 
+        for(int j = 0 ; j< groups.size();j++){
 
+            const auto& g = groups[j];
+            QString gender = g.gender == Gender::Male ? "Male" : "Female";
+            QString matchType = g.matchType == MatchType::Kata ? "Kata" : "Kumite";
+            QString entryType = g.entryType == EntryType::Team ? "Team" : "Individual";
+            QString title = g.ageCategory+"|"
+                            +g.weightCategory+"|"
+                            +gender+"|"
+                            +matchType+"|"
+                            +entryType+"|"
+                            +QString::number(g.teamSize);
+            QListWidgetItem *item =
+                new QListWidgetItem(title);
 
-//         QComboBox* tatamiButton = new QComboBox(this);
+            // title اصلی را نگه می‌داریم
+            item->setData(Qt::UserRole, title);
+            item->setFlags(
+                item->flags() | Qt::ItemIsUserCheckable
+                );
+            item->setCheckState(Qt::Checked);
 
-//         tatamiButton->addItem("None...");
-//         for(int j = 0 ; j < tattami;j++){
-//              tatamiButton->addItem(alphabet[j]);
-//         }
-//         ui->tableWidget->setCellWidget(i, 1, tatamiButton);
-       
+            priorityList->addItem(item);
 
-        QComboBox* tatamiButton = new QComboBox(this);
-        QStandardItemModel * model = new QStandardItemModel(tatamiButton);
-        QStandardItem * item = new QStandardItem("None...");
-        item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
-        item->setData(Qt::Checked,Qt::CheckStateRole);
-        model->appendRow(item);
-         for (int j = 0; j < tattami; j++) {
-            QStandardItem * item = new QStandardItem(alphabet[j]);
-            item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
-            item->setData(Qt::Unchecked,Qt::CheckStateRole);
-            model->appendRow(item);
-        }
-        tatamiButton->setModel(model);
-        tatamiButton->setEditable(false);
-        ui->tableWidget->setCellWidget(i, 1, tatamiButton);
-
-
-
-
-
-        QComboBox * comboBox_Order = new QComboBox(this);
-        comboBox_Order->addItem("None...");
-        for(int k = 1 ; k <= groups.size();k++){
-            comboBox_Order->addItem(QString::number(k));
+            // ezafeh shodan har group , jeloy har tattami
 
         }
-        ui->tableWidget->setCellWidget(i,2,comboBox_Order);
+        connect(
+            priorityList->model(),
+            &QAbstractItemModel::rowsMoved,
+            this,
+            [this, priorityList]()
+            {
+                updatePriority(priorityList);
+            }
+            );
+        connect(
+            priorityList,
+            &QListWidget::itemChanged,
+            this,
+            [this, priorityList](QListWidgetItem *item)
+            {
+                if (item->flags() & Qt::ItemIsUserCheckable)
+                {
+                    moveUncheckedToEnd(priorityList);
+                }
+            }
+            );
+        priorityList->setDragDropMode(QAbstractItemView::InternalMove);
+        priorityList->setDefaultDropAction(Qt::MoveAction);
 
-        tatami->append(tatamiButton);
-        order->append(comboBox_Order);
+        ui->tableWidget->setCellWidget(i,1,priorityList);
+
+        updatePriority(priorityList);
 
     }
-    ui->tableWidget->resizeColumnsToContents();
+
+
+
+
+
+
+
+
+
+//     for (int i = 0; i < groups.size(); ++i) {
+//         const auto& g = groups[i];
+//         ui->tableWidget->insertRow(i);
+//         QString gender = g.gender == Gender::Male ? "Male" : "Female";
+//         QString matchType = g.matchType == MatchType::Kata ? "Kata" : "Kumite";
+//         QString entryType = g.entryType == EntryType::Team ? "Team" : "Individual";
+//         QString title = g.ageCategory+"|"
+//                         +g.weightCategory+"|"
+//                         +gender+"|"
+//                         +matchType+"|"
+//                         +entryType+"|"
+//                         +QString::number(g.teamSize);
+//         ui->tableWidget->setItem(i,0,new QTableWidgetItem(title));
+
+
+
+// //         QComboBox* tatamiButton = new QComboBox(this);
+
+// //         tatamiButton->addItem("None...");
+// //         for(int j = 0 ; j < tattami;j++){
+// //              tatamiButton->addItem(alphabet[j]);
+// //         }
+// //         ui->tableWidget->setCellWidget(i, 1, tatamiButton);
+       
+
+//         QComboBox* tatamiButton = new QComboBox(this);
+//         QStandardItemModel * model = new QStandardItemModel(tatamiButton);
+//         QStandardItem * item = new QStandardItem("None...");
+//         item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
+//         item->setData(Qt::Checked,Qt::CheckStateRole);
+//         model->appendRow(item);
+//          for (int j = 0; j < tattami; j++) {
+//             QStandardItem * item = new QStandardItem(alphabet[j]);
+//             item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
+//             item->setData(Qt::Unchecked,Qt::CheckStateRole);
+//             model->appendRow(item);
+//         }
+//         tatamiButton->setModel(model);
+//         tatamiButton->setEditable(false);
+//         ui->tableWidget->setCellWidget(i, 1, tatamiButton);
+
+
+
+
+
+//         QComboBox * comboBox_Order = new QComboBox(this);
+//         comboBox_Order->addItem("None...");
+//         for(int k = 1 ; k <= groups.size();k++){
+//             comboBox_Order->addItem(QString::number(k));
+
+//         }
+//         ui->tableWidget->setCellWidget(i,2,comboBox_Order);
+
+//         tatami->append(tatamiButton);
+//         order->append(comboBox_Order);
+
+//     }
+//     ui->tableWidget->resizeColumnsToContents();
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
 }
+void SortGroups::updatePriority(QListWidget *priorityList)
+{
+    for (int i = 0; i < priorityList->count(); ++i)
+    {
+        QListWidgetItem *item =
+            priorityList->item(i);
 
+        // title اصلی
+        QString title =
+            item->data(Qt::UserRole).toString();
+
+        // شماره جدید
+        item->setText(
+            QString("%1.        %2")
+                .arg(i + 1)
+                .arg(title)
+            );
+    }
+}
 SortGroups::~SortGroups()
 {
     delete ui;
 }
 
+void SortGroups::moveUncheckedToEnd(QListWidget *priorityList)
+{
+    // ابتدا آیتم‌های بدون تیک را جمع‌آوری می‌کنیم
+    QList<QListWidgetItem*> uncheckedItems;
 
+    for (int i = 0; i < priorityList->count(); ++i)
+    {
+        QListWidgetItem *item = priorityList->item(i);
+
+        if (item->checkState() == Qt::Unchecked)
+        {
+            uncheckedItems.append(item);
+        }
+    }
+
+    // انتقال آیتم‌های بدون تیک به انتهای لیست
+    for (QListWidgetItem *item : uncheckedItems)
+    {
+        int row = priorityList->row(item);
+
+        priorityList->takeItem(row);
+        priorityList->addItem(item);
+    }
+
+    // به‌روزرسانی شماره اولویت‌ها
+    updatePriority(priorityList);
+}
 
 
 
