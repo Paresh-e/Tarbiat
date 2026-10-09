@@ -15,13 +15,17 @@ class SortGroups : public QDialog
     Q_OBJECT
 
 public:
-    explicit SortGroups(QWidget *parent = nullptr,int tatami = 1);
+    explicit SortGroups(QWidget *parent = nullptr,int tatami = 1,bool defaultTime = true);
     ~SortGroups();
     QVector<QComboBox*> *tatami;
     QVector<QComboBox *> *order;
     QMap<QString,QSet<int>> usedOrders;
     QVector<QString> currentTatami;       // حرف انتخابی هر ردیف
     QVector<int> currentOrder;
+    int tatNum;
+    bool DefTime;
+    QTime DefaultTime = QTime(8,0);
+    void setDefTime(QTime);
 
     void updateOrderComboForRow(int row);
 private slots:

@@ -1,6 +1,8 @@
 #include "sortgroups.h"
 
 #include "globaldata.h"
+#include "qdatetimeedit.h"
+#include "tattami.h"
 #include "ui_sortgroups.h"
 #include <QRegularExpressionValidator>
 #include <QRegularExpression>
@@ -12,27 +14,77 @@
 #include <QMessageBox>
 #include <qlistwidget.h>
 
-SortGroups::SortGroups(QWidget *parent,int tattami)
+SortGroups::SortGroups(QWidget *parent,int tattami,bool defaultTime)
     : QDialog(parent)
     , ui(new Ui::SortGroups)
     , manager(QCoreApplication::applicationDirPath() + "/groups.json")
 {
+    tatNum = tattami;
     GlobalData::instance().empty_finalGroups();
     ui->setupUi(this);
     ui->tableWidget->setRowCount(0);
     // tatami = new QVector<QComboBox*>;
     // order = new QVector<QComboBox *>;
-
+    DefTime = defaultTime;
     manager.load();
     const auto& groups = manager.getGroups();
     QString alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXY";
 
 
+
+    ui->tableWidget->setColumnCount(3);
+
+    ui->tableWidget->setHorizontalHeaderLabels({
+        "Tatami",
+        "Timeline",
+        "Priority"
+    });
+
+    // اگر زمان پیش‌فرض داریم، ستون Timeline مخفی شود
+    ui->tableWidget->setColumnHidden(1, defaultTime);
+
+
+
+
+
     // start page sort > making the tatemi into the table
     for ( int i = 0 ; i<tattami ; ++i){
         ui->tableWidget->insertRow(i);
-        ui->tableWidget->setItem(i,0,new QTableWidgetItem(alphabet[i]));
+
+        // =====================================
+        // Column 0: Tatami title
+        // =====================================
+
+        QTableWidgetItem *item = new QTableWidgetItem(alphabet[i]);
+
+        item->setTextAlignment(Qt::AlignCenter);
+
+        QFont font = item->font();
+        font.setBold(true);
+        font.setPointSize(14);
+        item->setFont(font);
+
+        ui->tableWidget->setItem(i, 0, item);
         // be ezay har tattami ye khat onsert misheh
+
+
+        // =====================================
+        // Column 1: Timeline
+        // =====================================
+
+        if (!defaultTime)
+        {
+            QTimeEdit *timeEdit = new QTimeEdit(ui->tableWidget);
+
+            timeEdit->setDisplayFormat("HH:mm");
+            timeEdit->setTime(QTime(8, 0));
+
+            ui->tableWidget->setCellWidget(i, 1, timeEdit);
+        }
+
+
+
+
         QListWidget * priorityList= new QListWidget();
 
         for(int j = 0 ; j< groups.size();j++){
@@ -52,6 +104,7 @@ SortGroups::SortGroups(QWidget *parent,int tattami)
 
             // title اصلی را نگه می‌داریم
             item->setData(Qt::UserRole, title);
+            item->setData(Qt::UserRole+1, j);
             item->setFlags(
                 item->flags() | Qt::ItemIsUserCheckable
                 );
@@ -86,9 +139,13 @@ SortGroups::SortGroups(QWidget *parent,int tattami)
         priorityList->setDragDropMode(QAbstractItemView::InternalMove);
         priorityList->setDefaultDropAction(Qt::MoveAction);
 
-        ui->tableWidget->setCellWidget(i,1,priorityList);
+        ui->tableWidget->setCellWidget(i,2,priorityList);
 
         updatePriority(priorityList);
+
+
+
+
 
     }
 
@@ -216,59 +273,97 @@ void SortGroups::moveUncheckedToEnd(QListWidget *priorityList)
 
 
 
-
+void SortGroups::setDefTime(QTime T){
+    DefaultTime = T;
+}
 void SortGroups::on_pushButton_clicked()
 {
 
-
+    QString alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXY";
 
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, "Confirmation", "Are You Sure ?",
                                   QMessageBox::Yes | QMessageBox::No);
-
+    QVector<Tattami> * Holder = new QVector<Tattami>;
     if (reply == QMessageBox::Yes) {
-        int k = 1 ;
-        QMap<QString,QMap<int,CompetitionGroup>>  Holders;
 
-        const auto& groups = manager.getGroups();
-         int L=  groups.size() + 1;
-        for (int i = 0; i < groups.size(); ++i) {
-            QString Tatemi_name = tatami->at(i)->currentText();
-            int ord = order->at(i)->currentIndex();
-             qDebug()<< Tatemi_name << ":"<<ord << groups[i].ageCategory;
-            QMap<int,CompetitionGroup> temp;
-            if(Tatemi_name == "None..."){
-                if(ord == 0 ){
-                    temp[ord] = groups[i];
-                    QString Title = "ZZ"+ QString::number(k);
-                    Holders[Title].insert(temp);
-                    k++;
-                }else{
-                    temp[ord] = groups[i];
-                    Holders["ZX"].insert(temp);
+            Tattami * temp;
+            QVector<CompetitionGroup> nons;
+
+
+
+                for (int tatamiRow = 0;
+                     tatamiRow < ui->tableWidget->rowCount();
+                     ++tatamiRow)
+                {
+                    QString tatamiName =
+                        ui->tableWidget->item(tatamiRow, 0)->text();
+                    if(!DefTime){
+                        QTimeEdit *timeEdit = qobject_cast<QTimeEdit*>(
+                            ui->tableWidget->cellWidget(tatamiRow, 1)
+                            );
+                        if (timeEdit)
+                        {
+                            QTime time = timeEdit->time();
+                            temp = new Tattami(tatamiName,time);
+                            // qDebug() << time.toString("HH:mm");
+                        }
+                    }else{
+                        temp = new Tattami(tatamiName,this->DefaultTime);
+                    }
+                    auto *priorityList = qobject_cast<QListWidget *>(
+                        ui->tableWidget->cellWidget(tatamiRow, 2)
+                        );
+
+                    if (!priorityList)
+                        continue;
+
+
+
+                    for (int priority = 0;
+                         priority < priorityList->count();
+                         ++priority)
+                    {
+                        QListWidgetItem *item = priorityList->item(priority);
+
+
+                        int groupIndex = item->data(Qt::UserRole+1).toInt();
+
+                        if (groupIndex >= 0 && groupIndex < manager.getGroups().size()) {
+                            CompetitionGroup& g = manager.getGroups()[groupIndex];
+
+                            // حالا به تمام اطلاعات گروه دسترسی داری
+                            qDebug() << g.ageCategory;
+                            qDebug() << g.matchDuration;
+                            qDebug() << g.Space;
+                            qDebug() << g.participants.size();
+                            qDebug() << g.teams.size();
+                            // گروه‌های بدون تیک غیرفعال هستند
+                            if (item->checkState() != Qt::Checked){
+                                nons.append(g);
+                            }else{
+                                temp->set_Category(g);
+                            }
+                        }
+
+                    }
+                    for(auto& i : nons){
+                        temp->set_Category(i);
+                    }
+                    nons.clear();
                 }
-            }else{
-                if(ord == 0 ){
-                    temp[L++] = groups[i];
-                    Holders[Tatemi_name].insert(temp);
-                }
-                else{
-                    temp[ord] = groups[i];
-                    Holders[Tatemi_name].insert(temp);}
-                 }
-
-        }
 
 
-        GlobalData::instance().SetGroups(Holders);
-        GlobalData::instance().Describefinal();
-        if(GlobalData::instance().finalGroups.size() == 0 ){
-            QMessageBox::warning(this,"Error", "دوباره امتحان کنید");
 
-        }
-        this->close();
+
+            }
+
+
+
+    this->close();
+
     }
 
 
-}
+
 

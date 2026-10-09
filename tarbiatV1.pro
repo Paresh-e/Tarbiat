@@ -18,6 +18,7 @@ SOURCES += \
     registrationform.cpp \
     registrationlistform.cpp \
     sortgroups.cpp \
+    tattami.cpp \
     timetable.cpp \
     timetablesettings.cpp
 
@@ -31,6 +32,7 @@ HEADERS += \
     registrationform.h \
     registrationlistform.h \
     sortgroups.h \
+    tattami.h \
     timetable.h \
     timetablesettings.h
 

@@ -36,6 +36,9 @@ public:
     QLabel *StartTimeLable_2;
     QTimeEdit *StartTimeEdit;
     QHBoxLayout *horizontalLayout_6;
+    QSpacerItem *horizontalSpacer_4;
+    QCheckBox *TimeSetterCB;
+    QTimeEdit *DefaultTimeEdit;
     QSpacerItem *horizontalSpacer;
     QVBoxLayout *verticalLayout_3;
     QCheckBox *repeCharCheackBox;
@@ -106,7 +109,22 @@ public:
 
         horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setObjectName("horizontalLayout_6");
-        horizontalSpacer = new QSpacerItem(800, 20, QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Minimum);
+        horizontalSpacer_4 = new QSpacerItem(700, 20, QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout_6->addItem(horizontalSpacer_4);
+
+        TimeSetterCB = new QCheckBox(timeTableSettings);
+        TimeSetterCB->setObjectName("TimeSetterCB");
+        TimeSetterCB->setChecked(true);
+
+        horizontalLayout_6->addWidget(TimeSetterCB);
+
+        DefaultTimeEdit = new QTimeEdit(timeTableSettings);
+        DefaultTimeEdit->setObjectName("DefaultTimeEdit");
+
+        horizontalLayout_6->addWidget(DefaultTimeEdit);
+
+        horizontalSpacer = new QSpacerItem(50, 20, QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Minimum);
 
         horizontalLayout_6->addItem(horizontalSpacer);
 
@@ -267,6 +285,7 @@ public:
         TatamiNumberLable->setText(QCoreApplication::translate("timeTableSettings", "tatamiNumber:", nullptr));
         StartTimeLable_2->setText(QCoreApplication::translate("timeTableSettings", "Start:", nullptr));
         StartTimeEdit->setDisplayFormat(QCoreApplication::translate("timeTableSettings", "h:mm AP", nullptr));
+        TimeSetterCB->setText(QCoreApplication::translate("timeTableSettings", "DefaultTimeForTattami", nullptr));
         repeCharCheackBox->setText(QCoreApplication::translate("timeTableSettings", "\330\264\330\247\331\206\330\263 \331\205\330\254\330\257\330\257", nullptr));
         checkBox->setText(QCoreApplication::translate("timeTableSettings", "\331\202\330\250\331\204 \330\247\330\262 \331\201\333\214\331\206\330\247\331\204", nullptr));
         BreakStartTimeLable->setText(QCoreApplication::translate("timeTableSettings", "StartBreak", nullptr));

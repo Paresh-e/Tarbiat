@@ -21,6 +21,7 @@ public:
 
     bool repeCharge;
     bool beforeFinal;
+    bool TimeForTattami= true;
     void set_restTimes(QMap<QString,QPair<QTime, QTime>> T);
 
 
@@ -36,6 +37,10 @@ private slots:
 
 
     void on_repeCharCheackBox_stateChanged(int arg1);
+
+
+
+    void on_TimeSetterCB_stateChanged(int arg1);
 
 private:
     Ui::timeTableSettings *ui;

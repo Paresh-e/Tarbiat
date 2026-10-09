@@ -124,7 +124,12 @@ void timeTableSettings::on_SaveButton_clicked()
 
 void timeTableSettings::on_SortGroupBtn_clicked()
 {
-    SortGroups * form = new SortGroups(nullptr,ui->TatamiNumberSpinBox->value());
+    // qDebug()<<TimeForTattami;
+    SortGroups * form = new SortGroups(nullptr,ui->TatamiNumberSpinBox->value(),TimeForTattami);
+    if(TimeForTattami){
+        form->setDefTime(ui->DefaultTimeEdit->time());
+    }
+
     form->show();
 
 }
@@ -140,6 +145,22 @@ void timeTableSettings::on_repeCharCheackBox_stateChanged(int arg1)
         ui->checkBox->setVisible(false);
     }else{
         ui->checkBox->setVisible(true);
+    }
+}
+
+
+
+
+void timeTableSettings::on_TimeSetterCB_stateChanged(int arg1)
+{
+
+    if(arg1==0){
+        ui->DefaultTimeEdit->setVisible(false);
+        TimeForTattami = false;
+
+    }else{
+        ui->DefaultTimeEdit->setVisible(true);
+        TimeForTattami = true;
     }
 }
 
